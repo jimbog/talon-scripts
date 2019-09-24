@@ -117,15 +117,17 @@ def rot13(i, word, _):
     return out
 
 formatters = {
-    'dunder': (True,  lambda i, word, _: '__%s__' % word if i == 0 else word),
+#    'dunder': (True,  lambda i, word, _: '__%s__' % word if i == 0 else word),
     'camel':  (True,  lambda i, word, _: word if i == 0 else word.capitalize()),
+    'title':  (True, lambda i, word, _: word.capitalize()),
     'pascal':  (True, lambda i, word, _: word.capitalize()),
     'snake':  (True,  lambda i, word, _: word if i == 0 else '_'+word),
     'smash':  (True,  lambda i, word, _: word),
     # spinal or kebab?
     'spinal':  (True,  lambda i, word, _: word if i == 0 else '-'+word),
+    'pointy':  (True,  lambda i, word, _: word if i == 0 else '.'+word),
     # 'sentence':  (False, lambda i, word, _: word.capitalize() if i == 0 else word),
-    'title':  (False, lambda i, word, _: word.capitalize()),
+#     'title':  (False, lambda i, word, _: word.capitalize()),
     'allcaps': (False, lambda i, word, _: word.upper()),
     'dubstring': (False, surround('"')),
     'string': (False, surround("'")),
@@ -135,9 +137,12 @@ formatters = {
 
 def FormatText(m):
     fmt = []
+    
     for w in m._words:
         if isinstance(w, Word):
             fmt.append(w.word)
+    words = parse_words(m)
+    """
     try:
         words = parse_words(m)
     except AttributeError:
@@ -146,7 +151,7 @@ def FormatText(m):
         words = s.get().split(' ')
         if not words:
             return
-
+    """
     tmp = []
     spaces = True
     for i, word in enumerate(words):
@@ -182,7 +187,7 @@ ctx.keymap({
 
     # more keys and modifier keys are defined in basic_keys.py
 
-    'slap': [Key('cmd-right enter')],
+    'slap': [Key('ctrl-e enter')],
     'question [mark]': '?',
     'tilde': '~',
     '(bang | exclamation point)': '!',
@@ -239,7 +244,7 @@ ctx.keymap({
     'run jobs': 'jobs\n',
 
     'const': 'const ',
-    'static': 'static ',
+
     'tip pent': 'int ',
     'tip char': 'char ',
     'tip byte': 'byte ',
@@ -309,6 +314,7 @@ ctx.keymap({
     'state past': 'pass',
 
     'plus': '+',
+    'doubledash': '--',
 #    'arrow': '->',
     'par pair': '()', #'call': '()',
     'indirect': '&',
@@ -433,7 +439,7 @@ ctx.keymap({
     'nex dex': Key('ctrl-right'),
     'desktop back': Key('ctrl-left'),
 
-    'links | display links | show [THEM] links': [Key('ctrl-x'),Key('ctrl-f')],
+    'links | display links | show [THEM] links': 'f',#[Key('ctrl-x'),Key('ctrl-f')],
 
     'click': lambda _: ctrl.mouse_click(button=0, hold=16000),
     'are click': lambda _: ctrl.mouse_click(button=1, hold=16000),
@@ -443,8 +449,10 @@ ctx.keymap({
         ctrl.mouse_click(button=1, hold=16000),
     ],
 
-    'emacs':'emacs',
-    'node':'node',
+    'emacs':'emacs ',
+    'node':'node ',
+#    'code':'code ',
+    'cat':'cat ',
     'chrome':'chrome',
     'return':'return',
     'pseudo-':'sudo ',
@@ -476,7 +484,7 @@ ctx.keymap({
 })
 
 
-alpha_alt = 'aim bat cat drum each fox good harp india jury cake look made neat odd pure queen rule sun trap urine vest whale plex yard zulu'.split()
+alpha_alt = 'aim bat chain drum each fox good harp india jury cake look made neat odd pure queen rule sun trap urine vest whale plex yard zulu'.split()
 #alpha_alt = 'air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip'.split()
 #alpha_alt = 'alpha bravo chain delta echo foxy golf hotel india juliet kilo Lima mikey nova oyster Paris queen ricky sierra tango urinal victor whiskey xray yankee sooloo'.split()
 f_keys = {f'F {i}': f'f{i}' for i in range(1, 13)}
@@ -488,7 +496,7 @@ simple_keys = [
     'pageup', 'pagedown', 'end',
 ]
 alternate_keys = {
-    'delete': 'backspace',
+    'deal': 'backspace',
     'forward delete': 'delete',
     'play': 'space',
 }
@@ -502,7 +510,8 @@ symbols = {
     'R square': ']', 'right square': ']',
     'forward slash': '/', 'slash': '/',
     'backslash': '\\',
-    'minus': '-', 'dash': '-',
+    'minus': '-',
+    'dash': '-',
     'equals': '=',
 }
 modifiers = {
@@ -515,7 +524,8 @@ modifiers = {
 
 alphabet = dict(zip(alpha_alt, string.ascii_lowercase))
 #digits = {str(i): str(i) for i in range(10)}
-digits = {'' + str(i): str(i) for i in range(10)}#{
+digits = {'num' + str(i): str(i) for i in range(9)}#{
+
 simple_keys = {k: k for k in simple_keys}
 arrows = {k: k for k in arrows}
 keys = {}

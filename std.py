@@ -19,7 +19,7 @@ def switch_app(m):
 
 ctx = Context('switcher')
 keymap = {
-    'bring {switcher.apps}': switch_app,
+    'open {switcher.apps}': switch_app,
 }
 ctx.keymap(keymap)
 
@@ -432,6 +432,7 @@ ctx.keymap({
     'berch | backsearch': Key('alt-r'),
     'alt ess': Key('alt-s'),
     'alt tea': Key('alt-t'),
+    'flip it | alt tab': Key('alt-tab'),
     'alt you': Key('alt-u'),
     'alt vest': Key('alt-v'),
     'alt whale | ring save': Key('alt-w'),
@@ -439,7 +440,7 @@ ctx.keymap({
     'nex dex': Key('ctrl-right'),
     'desktop back': Key('ctrl-left'),
 
-    'links | display links | show [THEM] links': [Key('ctrl-x'),Key('ctrl-f')],
+    'links | display links | show [THEM] links': 'f',#[Key('ctrl-x'),Key('ctrl-f')],
 
     'click': lambda _: ctrl.mouse_click(button=0, hold=16000),
     'are click': lambda _: ctrl.mouse_click(button=1, hold=16000),
